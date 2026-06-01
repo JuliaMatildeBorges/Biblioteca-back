@@ -1,7 +1,7 @@
 package com.projeto.biblioteca.enums;
 
-public enum tipoUsuario {
+public enum TipoUsuario {
     ALUNO,
-    PROFESSOR,
-    TUTOR
+    COLABORADOR,
+    TERCEIROS
 }
