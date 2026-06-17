@@ -45,7 +45,6 @@ public class Usuario extends BaseEntity {
     private TipoUsuario tipo;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PerfilUsuario perfil = PerfilUsuario.USUARIO;
 
     

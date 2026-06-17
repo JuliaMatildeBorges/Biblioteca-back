@@ -30,6 +30,10 @@ public abstract class BaseService<E extends BaseEntity, D> {
 
     @Transactional
     public D create(D dto) {
+            E entity = toEntity(dto);
+
+    System.out.println("DTO: " + dto);
+    System.out.println("ENTITY: " + entity);
         return toDto(repository.save(toEntity(dto)));
     }
 

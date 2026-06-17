@@ -10,8 +10,9 @@ import com.projeto.biblioteca.service.UsuarioService;
 @RequestMapping("/usuario")
 public class UsuarioController extends BaseController<UsuarioDTO> {
 
-    public UsuarioController(UsuarioService service) {
-        super(service);
-    }
+public UsuarioController(UsuarioService service) {
+    super(service);
 
+    System.out.println("CONTROLLER CARREGADO");
+}
 }

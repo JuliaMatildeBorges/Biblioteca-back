@@ -42,7 +42,5 @@ public class UsuarioDTO {
     @NotNull(message = "O tipo é obrigatório")
     private TipoUsuario tipo;
 
-    private PerfilUsuario perfil = PerfilUsuario.USUARIO;
-
   
 }
