@@ -31,35 +31,5 @@ public class Espaco extends BaseEntity {
     @Column(length = 500)
     private String observacao;
 
-    public String getNome() {
-        return nome;
-    }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public TipoEspaco getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoEspaco tipo) {
-        this.tipo = tipo;
-    }
-
-    public Integer getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCapacidade(Integer capacidade) {
-        this.capacidade = capacidade;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
 }
