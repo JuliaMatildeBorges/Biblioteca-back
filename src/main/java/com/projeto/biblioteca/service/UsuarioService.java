@@ -33,6 +33,7 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> {
         Usuario entity = toEntity(dto);
 
         entity.setPerfil(PerfilUsuario.USUARIO);
+        entity.setNivelAcesso("0");
 
         entity.setSenha(
             passwordEncoder.encode(entity.getSenha())

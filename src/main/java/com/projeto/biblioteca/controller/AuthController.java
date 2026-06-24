@@ -47,12 +47,17 @@ public class AuthController {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
 
         if (usuarioOpt.isPresent() && passwordEncoder.matches(senha, usuarioOpt.get().getSenha())) {
-            String perfil = usuarioOpt.get().getPerfil().toString();
+            Usuario usuario = usuarioOpt.get();
+            String perfil = usuario.getPerfil().toString();
 
             String token = jwtUtil.generateToken(email, perfil);
 
             return ResponseEntity.ok(Map.of(
-                "token", token, "tipo", perfil
+                "token", token,
+                "id", usuario.getId(),
+                "nome", usuario.getNome(),
+                "email", usuario.getEmail(),
+                "tipo", perfil
             ));
         }
 

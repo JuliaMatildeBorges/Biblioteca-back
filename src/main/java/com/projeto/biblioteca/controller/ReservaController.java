@@ -30,8 +30,10 @@ public class ReservaController extends BaseController<ReservaDTO> {
     }
 
     @GetMapping("/horarios-vagos")
-    public List<ReservaDTO> horariosVagos(@RequestParam LocalDate data) {
-        return reservaService.horariosVagos(data);
+    public List<ReservaDTO> horariosVagos(
+            @RequestParam LocalDate data,
+            @RequestParam(defaultValue = "60") int duracaoMinutos) {
+        return reservaService.horariosVagos(data, duracaoMinutos);
     }
 
     @PatchMapping("/{id}/checkin")

@@ -47,5 +47,9 @@ public class Usuario extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PerfilUsuario perfil = PerfilUsuario.USUARIO;
 
+    // Compatibilidade com bancos criados por versões anteriores do projeto.
+    @Column(name = "nivel_acesso", nullable = false)
+    private String nivelAcesso = "0";
+
     
 }

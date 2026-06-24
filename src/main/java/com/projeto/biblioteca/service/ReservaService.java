@@ -59,11 +59,20 @@ public class ReservaService extends BaseService<Reserva, ReservaDTO> {
     }
 
     public List<ReservaDTO> horariosVagos(LocalDate data) {
+        return horariosVagos(data, 60);
+    }
+
+    public List<ReservaDTO> horariosVagos(LocalDate data, int duracaoMinutos) {
+        if (duracaoMinutos != 30 && duracaoMinutos != 60) {
+            throw new IllegalArgumentException("A duração deve ser de 30 minutos ou 1 hora");
+        }
+
         List<ReservaDTO> horarios = new ArrayList<>();
         for (Espaco espaco : espacoRepository.findAll()) {
-            for (int hora = 8; hora < 22; hora++) {
-                LocalDateTime inicio = LocalDateTime.of(data, LocalTime.of(hora, 0));
-                LocalDateTime fim = inicio.plusHours(1);
+            LocalDateTime inicio = LocalDateTime.of(data, LocalTime.of(8, 0));
+            LocalDateTime limite = LocalDateTime.of(data, LocalTime.of(22, 0));
+            while (!inicio.plusMinutes(duracaoMinutos).isAfter(limite)) {
+                LocalDateTime fim = inicio.plusMinutes(duracaoMinutos);
                 if (reservaRepository.findConflitos(espaco.getId(), inicio, fim).isEmpty()) {
                     ReservaDTO dto = new ReservaDTO();
                     dto.setEspacoId(espaco.getId());
@@ -73,6 +82,7 @@ public class ReservaService extends BaseService<Reserva, ReservaDTO> {
                     dto.setFim(fim);
                     horarios.add(dto);
                 }
+                inicio = inicio.plusMinutes(30);
             }
         }
         return horarios;
@@ -130,8 +140,9 @@ public class ReservaService extends BaseService<Reserva, ReservaDTO> {
         if (!dto.getFim().isAfter(dto.getInicio())) {
             throw new IllegalArgumentException("O fim da reserva deve ser após o início");
         }
-        if (Duration.between(dto.getInicio(), dto.getFim()).toMinutes() < 60) {
-            throw new IllegalArgumentException("A reserva deve ter duração mínima de 1 hora");
+        long duracaoMinutos = Duration.between(dto.getInicio(), dto.getFim()).toMinutes();
+        if (duracaoMinutos != 30 && duracaoMinutos != 60) {
+            throw new IllegalArgumentException("A reserva deve ter duração de 30 minutos ou 1 hora");
         }
 
         Espaco espaco = espacoRepository.findById(dto.getEspacoId()).orElseThrow();

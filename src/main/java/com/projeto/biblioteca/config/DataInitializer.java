@@ -23,20 +23,45 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner initDatabase(UsuarioRepository repository){
         return args -> {
-            salvarUsuario(repository, "admin@admin.com", "00000000000", PerfilUsuario.ADMIN, Instituicao.SENAI, TipoUsuario.COLABORADOR);
+            salvarUsuario(
+                repository,
+                "Administrador Biblioteca",
+                "admin@admin.com",
+                "00000000000",
+                "47999999999",
+                PerfilUsuario.ADMIN,
+                Instituicao.SENAI,
+                TipoUsuario.COLABORADOR
+            );
             System.out.println("Usuário ADMIN disponível: admin@admin.com / 123456789");
         };
     }
 
-    private void salvarUsuario(UsuarioRepository repository, String email, String cpf, PerfilUsuario perfil, Instituicao instituicao, TipoUsuario tipoUsuario) {
-        Usuario usuario = repository.findByEmail(email).orElseGet(Usuario::new);
+    private void salvarUsuario(
+        UsuarioRepository repository,
+        String nome,
+        String email,
+        String cpf,
+        String telefone,
+        PerfilUsuario perfil,
+        Instituicao instituicao,
+        TipoUsuario tipoUsuario
+    ) {
+        Usuario usuario = repository.findFirstByEmail(email)
+                .or(() -> repository.findFirstByCpf(cpf))
+                .orElseGet(Usuario::new);
 
+        usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setCpf(cpf);
+        usuario.setTelefone(telefone);
         usuario.setPerfil(perfil);
+        usuario.setNivelAcesso(perfil == PerfilUsuario.ADMIN ? "1" : "0");
         usuario.setInstituicao(instituicao);
         usuario.setSenha(passwordEncoder.encode("123456789"));
         usuario.setTipo(tipoUsuario);
+        usuario.setAtivo(true);
+        usuario.setDeletedAt(null);
         repository.save(usuario);
     }
     

@@ -17,4 +17,8 @@ public interface UsuarioRepository extends BaseRepository<Usuario, Long> {
     """)
     Optional<Usuario> findByEmail(String email);
 
+    Optional<Usuario> findFirstByEmail(String email);
+
+    Optional<Usuario> findFirstByCpf(String cpf);
+
 }
